@@ -3,11 +3,11 @@ const { request } = require('@octokit/request');
 (async () => {
   const projectId = '1'; // カスタムフィールドを追加したいプロジェクトの ID
   const columnName = 'Open Date'; // カスタムフィールドを追加したいカラムの名前
-  const issueNumber = process.env.GITHUB_EVENT.issue.number;
+  const issueNumber = process.env.GITHUB_EVENT_ISSUE_NUMBER;
 
   const query1 = `
     query($projectId: ID!, $columnName: String!) {
-      repository(owner: ${{ github.repository_owner }}, name: ${{ github.event.repository.name }}) {
+      repository(owner: "${{ github.repository_owner }}", name: "${{ github.event.repository.name }}") {
         project(number: $projectId) {
           column(name: $columnName) {
             id
