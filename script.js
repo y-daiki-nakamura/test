@@ -31,28 +31,28 @@ const { request } = require('@octokit/request');
 
   const columnId = response1.repository.project.column.id;
 
-  const query2 = `
-    mutation($columnId: ID!, $contentId: ID!, $contentType: ProjectCardContentType!) {
-      createProjectCard(input: { projectColumnId: $columnId, contentId: $contentId, contentType: $contentType }) {
-        cardEdge {
-          node {
-            id
-          }
+  const mutationQuery = `
+    mutation($columnId: ID!, $issueId: ID!, $note: String!) {
+      updateProjectCard(input: { projectCardId: $issueId, note: $note }) {
+        projectCard {
+          id
         }
       }
     }
   `;
+
+  const note = `Open Date: ${new Date().toISOString()}`; // 作成日時を取得してカスタムフィールドの値として設定
 
   const response2 = await request('POST /graphql', {
     headers: {
       authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
       accept: 'application/vnd.github.inertia-preview+json',
     },
-    query: query2,
+    query: mutationQuery,
     columnId,
-    contentId: issueNumber,
-    contentType: 'ISSUE',
+    issueId: issueNumber,
+    note,
   });
 
-  console.log('Card created:', response2.createProjectCard.cardEdge.node.id);
+  console.log('Custom field updated:', response2.updateProjectCard.projectCard.id);
 })();
