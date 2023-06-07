@@ -6,8 +6,8 @@ const { request } = require('@octokit/request');
   const issueNumber = process.env.GITHUB_EVENT_ISSUE_NUMBER;
 
   const query1 = `
-    query($projectId: ID!, $columnName: String!) {
-      repository(owner: "${{ github.repository_owner }}", name: "${{ github.event.repository.name }}") {
+    query($projectId: ID!, $columnName: String!, $owner: String!, $repo: String!) {
+      repository(owner: $owner, name: $repo) {
         project(number: $projectId) {
           column(name: $columnName) {
             id
@@ -25,6 +25,8 @@ const { request } = require('@octokit/request');
     query: query1,
     projectId,
     columnName,
+    owner: process.env.GITHUB_REPOSITORY_OWNER,
+    repo: process.env.GITHUB_REPOSITORY,
   });
 
   const columnId = response1.repository.project.column.id;
