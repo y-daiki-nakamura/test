@@ -41,7 +41,7 @@ const { request } = require('@octokit/request');
     }
   `;
 
-  const note = `Open Date: ${new Date().toISOString()}`; // 作成日時を取得してカスタムフィールドの値として設定
+  const note = `created_at: ${new Date().toISOString()}`; // 作成日時を取得してカスタムフィールドの値として設定
 
   const response2 = await request('POST /graphql', {
     headers: {
