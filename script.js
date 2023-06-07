@@ -45,7 +45,7 @@ const { request } = require('@octokit/request');
 
   const response2 = await request('POST /graphql', {
     headers: {
-      authorization: `Bearer ${process.env.TOKEN}`,
+      authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
       accept: 'application/vnd.github.inertia-preview+json',
     },
     query: mutationQuery,
