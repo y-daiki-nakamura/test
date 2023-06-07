@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@octokit/request": "^6.2.5"
+  }
+}
